@@ -17,7 +17,7 @@ There may need to be modifications to the included `docker-compose.yml` file to 
 1. `mkdir -p data/{sentry,postgres}` - Make our local database and sentry config directories.
     This directory is bind-mounted with postgres so you don't lose state!
 2. `docker-compose run --rm web config generate-secret-key` - Generate a secret key.
-    Add it to `docker-compose.yml` in `base` as `SENTRY_SECRET_KEY`.
+    Add it to a `secret.env` file (**DO NOT COMMIT THIS FILE**).
 3. `docker-compose run --rm web upgrade` - Build the database.
     Use the interactive prompts to create a user account.
 4. `docker-compose up -d` - Lift all services (detached/background mode).
@@ -25,6 +25,12 @@ There may need to be modifications to the included `docker-compose.yml` file to 
 
 Note that as long as you have your database bind-mounted, you should
 be fine stopping and removing the containers without worry.
+
+**ESSS Notes**
+
+- Whenever you change ```requirements.txt``` or you want to get the latest
+packages, stop all services, run ```docker-compose build``` to generate the
+new images and then start the services again.
 
 ## Securing Sentry with SSL/TLS
 

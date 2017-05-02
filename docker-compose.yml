@@ -19,6 +19,8 @@ services:
       SENTRY_POSTGRES_HOST: postgres
       SENTRY_EMAIL_HOST: smtp
       SENTRY_USE_SSL: 1
+    env_file:
+      - secret.env
     volumes:
       - ./data/sentry:/var/lib/sentry/files
 

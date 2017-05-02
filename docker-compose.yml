@@ -23,6 +23,7 @@ services:
       - secret.env
     volumes:
       - ./data/sentry:/var/lib/sentry/files
+      - ../sentry-zendesk:/sentry-zendesk
 
   smtp:
     image: tianon/exim4
@@ -40,6 +41,7 @@ services:
 
   web:
     extends: base
+    command: bash -c 'pip uninstall -y sentry-zendesk; cd /sentry-zendesk && python setup.py install && gosu sentry sentry run web'
     links:
       - redis
       - postgres
@@ -51,6 +53,7 @@ services:
   cron:
     extends: base
     command: run cron
+    command: bash -c 'pip uninstall -y sentry-zendesk; cd /sentry-zendesk && python setup.py install && gosu sentry sentry run cron'
     links:
       - redis
       - postgres
@@ -60,6 +63,7 @@ services:
   worker:
     extends: base
     command: run worker
+    command: bash -c 'pip uninstall -y sentry-zendesk; cd /sentry-zendesk && python setup.py install && gosu sentry sentry run worker'
     links:
       - redis
       - postgres
